@@ -8,6 +8,7 @@ const passport = require('passport');
 const promisify = require('es6-promisify');
 const expressValidator = require('express-validator');
 const routes = require('./routes/index');
+require('./handlers/passport');
 
 const app = express();
 

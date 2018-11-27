@@ -1,11 +1,13 @@
 const express = require('express');
 const session = require('express-session');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const routes = require('./routes/index');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/', routes);
 
 module.exports = app;

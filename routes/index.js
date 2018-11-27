@@ -7,8 +7,13 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/reviews', catchErrors(reviewController.getReviews));
 router.post('/review/create', catchErrors(reviewController.createReview));
+router.post(
+  '/reviews/:id/edit',
+  reviewController.isLoggedIn,
+  catchErrors(reviewController.editReview)
+); //TODO
 
-router.post('/reviews/:id/edit', catchErrors(reviewController.editReview));
+router.get('/account/:id', catchErrors(reviewController.getAccountReviews)); //TODO
 
 router.post('/login', authController.login);
 
@@ -18,5 +23,10 @@ router.post(
   catchErrors(userController.register),
   authController.login
 );
+
+router.get('/logout', authController.logout);
+
+// API
+router.get('/api/reviews/near', catchErrors(reviewController.mapReviews)); //TODO
 
 module.exports = router;

@@ -6,14 +6,18 @@ const userController = require('../controllers/userController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/reviews', catchErrors(reviewController.getReviews));
-router.post('/review/create', catchErrors(reviewController.createReview));
+router.post(
+  '/review/create',
+  authController.isLoggedIn,
+  catchErrors(reviewController.createReview)
+);
 router.post(
   '/reviews/:id/edit',
-  reviewController.isLoggedIn,
+  authController.isLoggedIn,
   catchErrors(reviewController.editReview)
 ); //TODO
 
-router.get('/account/:id', catchErrors(reviewController.getAccountReviews)); //TODO
+router.get('/account/:id', catchErrors(reviewController.findUserReviews)); //TODO
 
 router.post('/login', authController.login);
 

@@ -7,16 +7,22 @@ const reviewSchema = new mongoose.Schema({
     default: Date.now
   },
   author: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     ref: 'User',
     required: 'You must supply an author.'
   },
-  location: [
-    {
-      type: Number,
-      required: 'You must supply a location.'
-    }
-  ],
+  location: {
+    type: {
+      type: String,
+      default: 'Point'
+    },
+    coordinates: [
+      {
+        type: Number,
+        required: 'You must supply a location.'
+      }
+    ]
+  },
   text: {
     type: String,
     required: 'You must have text in your review.'

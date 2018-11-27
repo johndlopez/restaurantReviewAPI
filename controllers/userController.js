@@ -11,7 +11,7 @@ exports.validateRegister = (req, res, next) => {
     remove_extension: false,
     gmail_remove_subaddress: false
   });
-  req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
+  req.checkBody('password', 'Password cannot be blank!').notEmpty();
   req
     .checkBody('password-confirm', 'Confirmed Password cannot be blank!')
     .notEmpty();
@@ -21,8 +21,7 @@ exports.validateRegister = (req, res, next) => {
 
   const errors = req.validationErrors();
   if (errors) {
-    errors.map(err => console.log(err.msg));
-    res.send(req.body);
+    res.send({ message: 'Errors found', body: req.body, errors });
     return;
   }
   next(); //pass to register
@@ -31,6 +30,5 @@ exports.validateRegister = (req, res, next) => {
 exports.register = async (req, res, next) => {
   const user = new User({ email: req.body.email, name: req.body.name });
   const register = await User.register(user, req.body.password);
-  res.send(register.email);
   next(); // pass to authController.login
 };

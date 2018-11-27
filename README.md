@@ -1,2 +1,1 @@
-# restaurantAPI
-Restaurant review API
+# Review API for a resataurant

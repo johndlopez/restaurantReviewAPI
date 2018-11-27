@@ -7,7 +7,7 @@ const reviewSchema = new mongoose.Schema({
     default: Date.now
   },
   author: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: 'You must supply an author.'
   },

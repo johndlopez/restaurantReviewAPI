@@ -26,7 +26,8 @@ const reviewSchema = new mongoose.Schema({
   text: {
     type: String,
     required: 'You must have text in your review.'
-  }
+  },
+  photo: String
 });
 
 reviewSchema.index({ location: '2dsphere' });

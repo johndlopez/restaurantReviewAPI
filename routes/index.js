@@ -9,12 +9,16 @@ router.get('/reviews', catchErrors(reviewController.getReviews));
 router.post(
   '/review/create',
   authController.isLoggedIn,
+  reviewController.upload,
+  catchErrors(reviewController.resizeImage),
   catchErrors(reviewController.createReview)
 );
 router.post(
   '/reviews/:id/edit',
   authController.isLoggedIn,
   catchErrors(reviewController.verifyOwnership),
+  reviewController.upload,
+  catchErrors(reviewController.resizeImage),
   catchErrors(reviewController.editReview)
 );
 router.delete(
@@ -24,7 +28,7 @@ router.delete(
   catchErrors(reviewController.deleteReview)
 );
 
-router.get('/account/:id', catchErrors(reviewController.findUserReviews)); //TODO
+router.get('/account/', catchErrors(reviewController.findUserReviews));
 
 router.post('/login', authController.login);
 
@@ -38,6 +42,6 @@ router.post(
 router.get('/logout', authController.logout);
 
 // API
-router.get('/api/reviews/near', catchErrors(reviewController.mapReviews)); //TODO
+router.get('/api/reviews/near', catchErrors(reviewController.mapReviews));
 
 module.exports = router;

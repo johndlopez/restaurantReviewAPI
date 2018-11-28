@@ -1,6 +1,35 @@
 const mongoose = require('mongoose');
 const Review = mongoose.model('Review');
 const User = mongoose.model('User');
+const multer = require('multer');
+const jimp = require('jimp');
+const uuidv4 = require('uuid/v4');
+
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true);
+    } else {
+      next({ message: "That filetype isn't allowed!" }, false);
+    }
+  }
+};
+
+exports.upload = multer(multerOptions).single('photo');
+
+exports.resizeImage = async (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+  const extension = req.file.mimetype.split('/')[1];
+  req.body.photo = `${uuidv4()}.${extension}`;
+  const photo = await jimp.read(req.file.buffer);
+  await photo.resize(800, jimp.AUTO);
+  await photo.write(`./public/uploads/${req.body.photo}`);
+  next();
+};
 
 exports.getReviews = async (req, res) => {
   const reviews = await Review.find();
@@ -11,7 +40,6 @@ exports.createReview = async (req, res) => {
   req.body.author = req.user._id;
   const review = new Review(req.body);
   await review.save();
-  // 2. send back data to user
   res.json(review);
 };
 
@@ -30,7 +58,6 @@ exports.verifyOwnership = async (req, res, next) => {
 
 exports.editReview = async (req, res) => {
   req.body.location.type = 'Point';
-  // 1. Pull store
   const review = await Review.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
@@ -39,8 +66,6 @@ exports.editReview = async (req, res) => {
       runValidators: true
     }
   ).exec();
-  // 2. Verify user is owner of store
-  // 3. Save updated store to db
   res.json(review);
 };
 
@@ -52,10 +77,10 @@ exports.deleteReview = async (req, res) => {
 };
 
 exports.findUserReviews = async (req, res) => {
-  //TODO
   // 1. Find reviews by user id.
-  // const reviews = async Review.find
+  const reviews = await Review.find({ author: req.user._id });
   // 2. send them in a response
+  res.json(reviews);
 };
 
 exports.mapReviews = async (req, res) => {
@@ -67,7 +92,7 @@ exports.mapReviews = async (req, res) => {
           type: 'Point',
           coordinates
         },
-        $maxDistance: 160934
+        $maxDistance: 16093
       }
     }
   };

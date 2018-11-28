@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 exports.login = passport.authenticate('local', {
-  failureRedirect: '/reviews', //TODO remove
   successRedirect: '/reviews'
 });
 

@@ -29,6 +29,7 @@ exports.verifyOwnership = async (req, res, next) => {
 };
 
 exports.editReview = async (req, res) => {
+  req.body.location.type = 'Point';
   // 1. Pull store
   const review = await Review.findOneAndUpdate(
     { _id: req.params.id },
@@ -57,4 +58,22 @@ exports.findUserReviews = async (req, res) => {
   // 2. send them in a response
 };
 
-exports.mapReviews = async (req, res) => {};
+exports.mapReviews = async (req, res) => {
+  const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates
+        },
+        $maxDistance: 160934
+      }
+    }
+  };
+
+  const reviews = await Review.find(q)
+    .select('text author location')
+    .limit(10);
+  res.json(reviews);
+};

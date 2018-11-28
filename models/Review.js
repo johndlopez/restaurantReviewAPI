@@ -29,4 +29,6 @@ const reviewSchema = new mongoose.Schema({
   }
 });
 
+reviewSchema.index({ location: '2dsphere' });
+
 module.exports = mongoose.model('Review', reviewSchema);

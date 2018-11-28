@@ -14,6 +14,7 @@ router.post(
 router.post(
   '/reviews/:id/edit',
   authController.isLoggedIn,
+  catchErrors(reviewController.verifyOwnership),
   catchErrors(reviewController.editReview)
 ); //TODO
 

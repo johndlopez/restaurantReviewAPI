@@ -43,6 +43,13 @@ exports.editReview = async (req, res) => {
   res.json(review);
 };
 
+exports.deleteReview = async (req, res) => {
+  Review.find({ _id: req.params.id })
+    .remove()
+    .exec();
+  res.send('Review was deleted');
+};
+
 exports.findUserReviews = async (req, res) => {
   //TODO
   // 1. Find reviews by user id.

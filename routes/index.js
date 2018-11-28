@@ -16,7 +16,13 @@ router.post(
   authController.isLoggedIn,
   catchErrors(reviewController.verifyOwnership),
   catchErrors(reviewController.editReview)
-); //TODO
+);
+router.delete(
+  '/reviews/:id/delete',
+  authController.isLoggedIn,
+  catchErrors(reviewController.verifyOwnership),
+  catchErrors(reviewController.deleteReview)
+);
 
 router.get('/account/:id', catchErrors(reviewController.findUserReviews)); //TODO
 

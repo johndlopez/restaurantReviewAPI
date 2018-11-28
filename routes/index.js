@@ -28,7 +28,11 @@ router.delete(
   catchErrors(reviewController.deleteReview)
 );
 
-router.get('/account/', catchErrors(reviewController.findUserReviews));
+router.get(
+  '/account/',
+  authController.isLoggedIn,
+  catchErrors(reviewController.findUserReviews)
+);
 
 router.post('/login', authController.login);
 
@@ -39,7 +43,7 @@ router.post(
   authController.login
 );
 
-router.get('/logout', authController.logout);
+router.get('/logout', authController.isLoggedIn, authController.logout);
 
 // API
 router.get('/api/reviews/near', catchErrors(reviewController.mapReviews));

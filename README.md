@@ -4,10 +4,10 @@ To test this API, I've included specific details about each endpoint below.
 
 The variables.env file that is required to access the database will be included in an email. Place this file in the 'restaurantReviewAPI/' directory.
 
-To install dependencies, run this command in the terminal:
+After installing the dependencies, run the following command in your terminal:
 
 ```bash
-npm install
+node start
 ```
 
 Included in the remote database are a few sample accounts

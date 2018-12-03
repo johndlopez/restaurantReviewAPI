@@ -75,13 +75,6 @@ I used Postman to test the routes, you can find additional information below.
 - DELETE /reviews/:id/delete
 - :id is \_id of a review.
 
-#### Form-data fields
-
-- location.coordinates[0]
-- location.coordinates[1]
-- text
-- photo (file)
-
 ## See your account's reviews
 
 - GET /account/

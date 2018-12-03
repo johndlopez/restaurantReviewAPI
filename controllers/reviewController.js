@@ -77,9 +77,7 @@ exports.deleteReview = async (req, res) => {
 };
 
 exports.findUserReviews = async (req, res) => {
-  // 1. Find reviews by user id.
   const reviews = await Review.find({ author: req.user._id });
-  // 2. send them in a response
   res.json(reviews);
 };
 

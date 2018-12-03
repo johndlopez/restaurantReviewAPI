@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Review = mongoose.model('Review');
-const User = mongoose.model('User');
 const multer = require('multer');
 const jimp = require('jimp');
 const uuidv4 = require('uuid/v4');

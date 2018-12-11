@@ -7,13 +7,13 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/reviews', catchErrors(reviewController.getReviews));
 router.post(
-  '/review/create',
+  '/reviews/create',
   authController.isLoggedIn,
   reviewController.upload,
   catchErrors(reviewController.resizeImage),
   catchErrors(reviewController.createReview)
 );
-router.post(
+router.put(
   '/reviews/:id/edit',
   authController.isLoggedIn,
   catchErrors(reviewController.verifyOwnership),
